@@ -73,3 +73,27 @@ Get lis of objects using **query**
             }
         );
 ```
+
+## Test
+
+Create class ProductRepositoryTest.java, files schema.sql and test-data.sql in resources/jdbc folder
+
+```java
+@ContextConfiguration(classes = ProductRepositoryTest.class)
+
+@JdbcTest
+@Sql({"/jdbc/schema.sql", "/jdbc/test-data.sql"})
+
+public class ProductRepositoryTest {
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+    @Test
+    void testGetAll_thenReturnCountNonZero(){
+        ProductRepository productRepository= new ProductRepository();
+        productRepository.setJdbcTemplate(jdbcTemplate);
+        var items = productRepository.getAll();
+        assertEquals(12, items.size());
+    }
+}
+
+```
