@@ -1,11 +1,15 @@
 package pe.maxz.demo;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -22,18 +26,38 @@ public class ProductRepositoryTest {
 
     @Test
     void get_returnProduct9(){
-        System.out.println("test1");
-
         var product = productRepository.get("9");
-        assertEquals("Product 9", product.getName());
+        assertEquals("Product 0009", product.getName());
     }
 
     @Test
     void get_returnNotNull() {
-        System.out.println("test2");
-
         var product = productRepository.get("2");
         System.out.println(product);
         assertNotNull(product);
     }
+    @Test
+    void getAll_returnQtyRows(){
+        var products = productRepository.getAll();
+        assertEquals(9, products.size());
+    }
+    @Test
+    void get_returnNotFoundException(){
+        assertThrowsExactly(EmptyResultDataAccessException.class, ()->{
+            productRepository.get("099");
+        });
+    }
+    @Test
+    void get_returnException(){
+        assertThrows(Exception.class, ()->{
+            productRepository.get("099");
+        });
+    }
+    @Test
+    void get_NotReturnNotFoundException(){
+        assertDoesNotThrow( ()->{
+            productRepository.get("1");
+        });
+    }
+
 }
