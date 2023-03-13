@@ -1,4 +1,4 @@
-package pe.maxz.demo.repositoty;
+package pe.maxz.demo.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,10 +17,6 @@ public class ProductRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate=jdbcTemplate;
-    }
-    
     public Product get(String code){
         String query = """
             SELECT p.prd_lvl_number code, prd_full_name name

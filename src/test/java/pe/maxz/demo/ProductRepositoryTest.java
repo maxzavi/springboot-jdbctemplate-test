@@ -1,29 +1,39 @@
 package pe.maxz.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-import pe.maxz.demo.repositoty.ProductRepository;
+import pe.maxz.demo.repository.ProductRepository;
 
-@ContextConfiguration(classes = ProductRepositoryTest.class)
-
+@ContextConfiguration(classes = ProductRepository.class)
 @JdbcTest
-@Sql({"/jdbc/schema.sql", "/jdbc/test-data.sql"})
-
+@Sql( value = {"/jdbc/schema.sql", "/jdbc/test-data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql( value = {"/jdbc/clean.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class ProductRepositoryTest {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    ProductRepository productRepository;
+
     @Test
-    void testGetAll_thenReturnCountNonZero(){
-        ProductRepository productRepository= new ProductRepository();
-        productRepository.setJdbcTemplate(jdbcTemplate);
-        var items = productRepository.getAll();
-        assertEquals(12, items.size());
+    void get_returnProduct9(){
+        System.out.println("test1");
+
+        var product = productRepository.get("9");
+        assertEquals("Product 9", product.getName());
+    }
+
+    @Test
+    void get_returnNotNull() {
+        System.out.println("test2");
+
+        var product = productRepository.get("2");
+        System.out.println(product);
+        assertNotNull(product);
     }
 }

@@ -79,20 +79,29 @@ Get lis of objects using **query**
 Create class ProductRepositoryTest.java, files schema.sql and test-data.sql in resources/jdbc folder
 
 ```java
-@ContextConfiguration(classes = ProductRepositoryTest.class)
-
+@ContextConfiguration(classes = ProductRepository.class)
 @JdbcTest
-@Sql({"/jdbc/schema.sql", "/jdbc/test-data.sql"})
-
+@Sql( value = {"/jdbc/schema.sql", "/jdbc/test-data.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql( value = {"/jdbc/clean.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class ProductRepositoryTest {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    ProductRepository productRepository;
+
     @Test
-    void testGetAll_thenReturnCountNonZero(){
-        ProductRepository productRepository= new ProductRepository();
-        productRepository.setJdbcTemplate(jdbcTemplate);
-        var items = productRepository.getAll();
-        assertEquals(12, items.size());
+    void get_returnProduct9(){
+        System.out.println("test1");
+
+        var product = productRepository.get("9");
+        assertEquals("Product 9", product.getName());
+    }
+
+    @Test
+    void get_returnNotNull() {
+        System.out.println("test2");
+
+        var product = productRepository.get("2");
+        System.out.println(product);
+        assertNotNull(product);
     }
 }
 

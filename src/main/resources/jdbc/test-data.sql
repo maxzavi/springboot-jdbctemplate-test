@@ -6,7 +6,7 @@ INSERT INTO ifhprdmst VALUES ('5', 'asasasasassa');
 INSERT INTO ifhprdmst VALUES ('6', 'asasasasassa');
 INSERT INTO ifhprdmst VALUES ('7', 'asasasasassa');
 INSERT INTO ifhprdmst VALUES ('8', 'asasasasassa');
-INSERT INTO ifhprdmst VALUES ('9', 'asasasasassa');
+INSERT INTO ifhprdmst VALUES ('9', 'Product 9');
 INSERT INTO ifhprdmst VALUES ('10', 'asasasasassa');
 INSERT INTO ifhprdmst VALUES ('11', 'asasasasassa');
 INSERT INTO ifhprdmst VALUES ('12', 'asasasasassa');

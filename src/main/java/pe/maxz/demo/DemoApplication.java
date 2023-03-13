@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import pe.maxz.demo.model.Product;
-import pe.maxz.demo.repositoty.ProductRepository;
+import pe.maxz.demo.repository.ProductRepository;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner{
